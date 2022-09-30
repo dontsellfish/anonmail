@@ -1,4 +1,4 @@
-package anonmail
+package lib
 
 import (
 	"context"

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"anonmail/anonmail"
+	"anonmail/lib"
 	"encoding/json"
 	"flag"
 	"log"
@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	configPath := flag.String("cfg", anonmail.DefaultConfigPath,
+	configPath := flag.String("cfg", lib.DefaultConfigPath,
 		"path to the config file (may be useful to run multiple bots in parallel)")
 	flag.Parse()
 
@@ -18,13 +18,13 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	var cfg anonmail.Config
+	var cfg lib.Config
 	err = json.Unmarshal(configFileBytes, &cfg)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	bot, err := anonmail.NewBot(cfg)
+	bot, err := lib.NewBot(cfg)
 	if err != nil {
 		log.Fatalln(err)
 	}
