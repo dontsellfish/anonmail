@@ -153,7 +153,7 @@ func (bot *Bot) Start() {
 	bot.Bot.Handle(tele.OnMedia, universalHandler)
 
 	bot.Bot.Handle("/start", func(ctx tele.Context) error {
-		return ctx.Send(bot.Cfg.StartMessage)
+		return ctx.Send(bot.Cfg.StartMessage, &tele.SendOptions{ParseMode: tele.ModeMarkdownV2})
 	})
 
 	bot.Bot.Handle("/ban", func(ctx tele.Context) error {
