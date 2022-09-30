@@ -113,7 +113,7 @@ func NewBot(cfg Config, settings ...tele.Settings) (*Bot, error) {
 
 	bannedUsersKey := fmt.Sprintf(DefaultRedisBannedListLayoutKey, cfg.ForwardChatID)
 	redisContext := context.Background()
-	err = rdb.SAdd(redisContext, bannedUsersKey, "").Err()
+	err = rdb.SAdd(redisContext, bannedUsersKey, "777").Err()
 	if err != nil {
 		return nil, err
 	}
@@ -267,11 +267,11 @@ func (bot *Bot) makeForwarderToOriginalSender() func(tele.Context) error {
 
 func (bot *Bot) makeForwarderToForwardChat() func(tele.Context) error {
 	return func(ctx tele.Context) error {
-		isMember, err := bot.redisDB.SMIsMember(bot.redisContext, bot.bannedUsersKey, toKey(bot, ctx.Chat().ID)).Result()
+		isMember, err := bot.redisDB.SIsMember(bot.redisContext, bot.bannedUsersKey, toKey(bot, ctx.Chat().ID)).Result()
 		if err != nil {
 			return err
 		}
-		if isMember[0] {
+		if isMember {
 			return ctx.Send("you are banned :S")
 		}
 
