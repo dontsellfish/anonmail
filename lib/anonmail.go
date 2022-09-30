@@ -152,6 +152,13 @@ func (bot *Bot) Start() {
 	bot.Bot.Handle(tele.OnText, universalHandler)
 	bot.Bot.Handle(tele.OnMedia, universalHandler)
 
+	bot.Bot.Handle("/ok", func(ctx tele.Context) error {
+		if isPersonalMessage(ctx) || bot.isFromForwardChat(ctx) {
+			return ctx.Send("🦕")
+		}
+		return nil
+	})
+
 	bot.Bot.Handle("/start", func(ctx tele.Context) error {
 		return ctx.Send(bot.Cfg.StartMessage, &tele.SendOptions{ParseMode: tele.ModeMarkdownV2})
 	})
